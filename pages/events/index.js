@@ -21,6 +21,8 @@ export async function getStaticProps() {
 
   return {
     props: { events },
+
+    // run again when request is not found
     revalidate: 1,
   };
 }

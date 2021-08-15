@@ -50,6 +50,7 @@ const EventPage = ({ evt }) => {
   );
 };
 
+// pass in "context" when using setServerSideProps
 // you can pass in "context" but below is destructured
 // export async function getServerSideProps({ query: { slug } }) {
 //   const res = await fetch(`${API_URL}/api/events/${slug}`);
