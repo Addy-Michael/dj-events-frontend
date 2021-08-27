@@ -8,15 +8,15 @@ import { API_URL } from "@/config/index";
 import styles from "@/styles/Form.module.css";
 import { route } from "next/dist/next-server/server/router";
 
-const AddEventPage = () => {
+const EditEventPage = ({ evt }) => {
   const [values, setValues] = useState({
-    name: " ",
-    performers: " ",
-    venue: " ",
-    address: " ",
-    date: " ",
-    time: " ",
-    description: " ",
+    name: evt.name,
+    performers: evt.performers,
+    venue: evt.venue,
+    address: evt.address,
+    date: evt.date,
+    time: evt.time,
+    description: evt.description,
   });
 
   const router = useRouter();
@@ -57,7 +57,7 @@ const AddEventPage = () => {
   return (
     <Layout title='Add New Event'>
       <Link href='/events'>Go back</Link>
-      <h1>Add event page</h1>
+      <h1>Edit event page</h1>
       <ToastContainer />
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.grid}>
@@ -134,10 +134,19 @@ const AddEventPage = () => {
           />
         </div>
 
-        <input type='submit' value='Add Event' className='btn' />
+        <input type='submit' value='Edit Event' className='btn' />
       </form>
     </Layout>
   );
 };
 
-export default AddEventPage;
+export async function getServerSideProps({ params: { id } }) {
+  const res = await fetch(`${API_URL}/events/${id}`);
+  const evt = await res.json();
+
+  return {
+    props: { evt },
+  };
+}
+
+export default EditEventPage;
