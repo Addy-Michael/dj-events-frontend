@@ -13,6 +13,8 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
+  useEffect(() => error && toast.error(error));
+
   const { register, error } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
@@ -23,7 +25,7 @@ export default function RegisterPage() {
       return;
     }
 
-    register({ email, password });
+    register({ username, email, password });
   };
 
   return (
@@ -74,7 +76,7 @@ export default function RegisterPage() {
         </form>
 
         <p>
-          Already have an account ? <Link href='/account/login'>Login</Link>
+          Already have an account ? <Link href='/account/login'>Register</Link>
         </p>
       </div>
     </Layout>

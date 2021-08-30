@@ -8,15 +8,34 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
+  const router = useRouter();
+
+  useEffect(() => checkUserLoggedIn(), []);
+
   // Register user
   const register = async (user) => {
-    console.log(user);
+    const res = await fetch(`http://localhost:3001/api/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+    });
+
+    const data = await res.json();
+    // console.log(data);
+
+    if (res.ok) {
+      setUser(data.user);
+      router.push("/account/dashboard");
+    } else {
+      setError(data.message);
+      setError(null);
+    }
   };
 
   // Login user
   const login = async ({ email: identifier, password }) => {
     // because we submitting a log in request email has been renamed to identifier
-    const res = await fetch(`http://localhost:3001/api/login`, {
+    const res = await fetch(`${NEXT_URL}/api/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -30,6 +49,7 @@ export const AuthProvider = ({ children }) => {
 
     if (res.ok) {
       setUser(data.user);
+      router.push("/account/dashboard");
     } else {
       setError(data.message);
       setError(null);
@@ -38,12 +58,24 @@ export const AuthProvider = ({ children }) => {
 
   // Logout user
   const logout = async () => {
-    console.log("logout");
+    const res = await fetch(`${NEXT_URL}/api/logout`, { method: "POST" });
+
+    if (res.ok) {
+      setUser(null);
+      router.push("/");
+    }
   };
 
   // check if user is logged in
   const checkUserLoggedIn = async (user) => {
-    console.log("check");
+    const res = await fetch(`${NEXT_URL}/api/user`);
+    const data = await res.json();
+
+    if (res.ok) {
+      setUser(data.user);
+    } else {
+      setUser(null);
+    }
   };
 
   return (
