@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { NEXT_URL } from "@/config/index";
+import { API_URL, NEXT_URL } from "@/config/index";
 
 const AuthContext = createContext();
 
@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
 
   // Register user
   const register = async (user) => {
-    const res = await fetch(`http://localhost:3001/api/register`, {
+    const res = await fetch(`${NEXT_URL}/api/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
