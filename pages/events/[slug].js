@@ -5,32 +5,33 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { FaPencilAlt, FaTimes } from "react-icons/fa";
 import Layout from "@/components/Layout";
+import EventMap from "@/components/EventMap";
 import { API_URL } from "@/config/index";
 import styles from "@/styles/Event.module.css";
 
 const EventPage = ({ evt }) => {
   const router = useRouter();
 
-  const deleteEvent = async (e) => {
-    if (confirm("Are you sure?")) {
-      const res = await fetch(`${API_URL}/events/${evt.id}`, {
-        method: "DELETE",
-      });
-    }
+  // const deleteEvent = async (e) => {
+  //   if (confirm("Are you sure?")) {
+  //     const res = await fetch(`${API_URL}/events/${evt.id}`, {
+  //       method: "DELETE",
+  //     });
+  //   }
 
-    const data = await res.json();
+  //   const data = await res.json();
 
-    if (!res.ok) {
-      toast.error(data.message);
-    } else {
-      router.push("/events");
-    }
-  };
+  //   if (!res.ok) {
+  //     toast.error(data.message);
+  //   } else {
+  //     router.push("/events");
+  //   }
+  // };
 
   return (
     <Layout>
       <div className={styles.event}>
-        <div className={styles.controls}>
+        {/* <div className={styles.controls}>
           <Link href={`/events/edit/${evt.id}`}>
             <a>
               <FaPencilAlt /> Edit Event
@@ -39,7 +40,7 @@ const EventPage = ({ evt }) => {
           <a href='#' className={styles.delete} onClick={deleteEvent}>
             <FaTimes /> Delete Event
           </a>
-        </div>
+        </div> */}
 
         <span>
           {new Date(evt.date).toLocaleDateString("en-US")} at {evt.time}
@@ -64,6 +65,8 @@ const EventPage = ({ evt }) => {
         <p>{evt.description}</p>
         <h3>Venue: {evt.venue}</h3>
         <p>{evt.address}</p>
+
+        <EventMap evt={evt} />
 
         <Link href='/events'>
           <a className={styles.back}>{"<"} Go Back</a>
