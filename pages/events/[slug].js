@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { FaPencilAlt, FaTimes } from "react-icons/fa";
 import Layout from "@/components/Layout";
-import EventMap from "@/components/EventMap";
+// import EventMap from "@/components/EventMap";
 import { API_URL } from "@/config/index";
 import styles from "@/styles/Event.module.css";
 
@@ -66,7 +66,7 @@ const EventPage = ({ evt }) => {
         <h3>Venue: {evt.venue}</h3>
         <p>{evt.address}</p>
 
-        <EventMap evt={evt} />
+        {/* <EventMap evt={evt} /> */}
 
         <Link href='/events'>
           <a className={styles.back}>{"<"} Go Back</a>
@@ -78,33 +78,33 @@ const EventPage = ({ evt }) => {
 
 // pass in "context" when using setServerSideProps
 // you can pass in "context" but below is destructured
-// export async function getServerSideProps({ query: { slug } }) {
-//   const res = await fetch(`${API_URL}/api/events/${slug}`);
-//   const events = await res.json();
-
-//   return {
-//     props: { evt: events[0] },
-//   };
-// }
-
-export async function getStaticPaths() {
-  const res = await fetch(`${API_URL}/events/`);
-  const events = await res.json();
-
-  //[params: slug]
-  const paths = events.map((evt) => ({ params: { slug: evt.slug } }));
-
-  return { paths, fallback: false };
-}
-
-export async function getStaticProps({ params: { slug } }) {
+export async function getServerSideProps({ query: { slug } }) {
   const res = await fetch(`${API_URL}/events?slug=${slug}`);
   const events = await res.json();
 
   return {
     props: { evt: events[0] },
-    revalidate: 1,
   };
 }
+
+// export async function getStaticPaths() {
+//   const res = await fetch(`${API_URL}/events/`);
+//   const events = await res.json();
+
+//   //[params: slug]
+//   const paths = events.map((evt) => ({ params: { slug: evt.slug } }));
+
+//   return { paths, fallback: false };
+// }
+
+// export async function getStaticProps({ params: { slug } }) {
+//   const res = await fetch(`${API_URL}/events?slug=${slug}`);
+//   const events = await res.json();
+
+//   return {
+//     props: { evt: events[0] },
+//     revalidate: 1,
+//   };
+// }
 
 export default EventPage;

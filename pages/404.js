@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { FaExclamationTriangle } from "react-icons/fa";
 import Link from "next/link";
 import Layout from "@/components/Layout";
@@ -10,7 +11,7 @@ export default function NotFoundPage() {
         <h1>
           <FaExclamationTriangle /> 404
         </h1>
-        <h4>Sorry, there's nothing here</h4>
+        <h4>`Sorry, there's nothing here`</h4>
         <Link href='/'>Go back home</Link>
       </div>
     </Layout>
